@@ -1,0 +1,474 @@
+/* БАЗА: читаемость и предсказуемость размеров */
+* { box-sizing: border-box; }
+
+html, body { 
+    margin: 0; 
+    padding: 0; 
+    min-height: 100vh;
+}
+
+body { 
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; 
+    line-height: 1.5;
+    background-color: var(--color-bg);
+    color: var(--color-fg);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ДИЗАЙН-ТОКЕНЫ */
+:root {
+    /* Палитра */
+    --color-bg: #fff;
+    --color-fg: #0b0b0b;
+    --color-muted: #666;
+    --color-primary: #0a84ff;
+    --color-danger: #b00020;
+
+    /* Типографика и размеры */
+    --font-body: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 16px;
+    --space-4: 24px;
+    --space-5: 40px;
+
+    /* Скругления и тени */
+    --radius: 12px;
+    --shadow: 0 1px 2px rgba(0,0,0,.08), 0 8px 24px rgba(0,0,0,.08);
+}
+
+/* Тёмная тема */
+/* Тёмная тема */
+body.theme-dark {
+    --color-bg: #1e1e1e;  /* Более яркий тёмный цвет */
+    --color-fg: #f0f0f0;
+    --color-muted: #b0b0b0;
+    --color-primary: #4a90e2;
+    
+    background-color: var(--color-bg);
+    color: var(--color-fg);
+}
+
+/* Убедимся, что все основные элементы наследуют тёмную тему */
+body.theme-dark header,
+body.theme-dark main,
+body.theme-dark footer,
+body.theme-dark .site-header,
+body.theme-dark .main-content,
+body.theme-dark .site-footer,
+body.theme-dark .section,
+body.theme-dark .modal__window {
+    background-color: var(--color-bg);
+    color: var(--color-fg);
+}
+
+/* Особые стили для тёмной темы */
+body.theme-dark .site-header {
+    border-bottom-color: #333;
+    background-color: var(--color-bg);
+}
+
+body.theme-dark .site-footer {
+    border-top-color: #333;
+    background-color: var(--color-bg);
+}
+
+body.theme-dark .form__input,
+body.theme-dark .form__select,
+body.theme-dark .form__textarea {
+    background: #2d2d2d;
+    border-color: #444;
+    color: var(--color-fg);
+}
+
+body.theme-dark .form__input:focus,
+body.theme-dark .form__select:focus,
+body.theme-dark .form__textarea:focus {
+    border-color: var(--color-primary);
+}
+
+body.theme-dark .modal__window {
+    background: #2d2d2d;
+    border: 1px solid #444;
+}
+
+body.theme-dark .modal__backdrop {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+body.theme-dark .site-nav__link {
+    color: var(--color-fg);
+}
+
+body.theme-dark .site-nav__link:hover,
+body.theme-dark .site-nav__link:focus-visible {
+    background-color: var(--color-primary);
+    color: white;
+}
+
+body.theme-dark .breadcrumbs__link {
+    color: var(--color-muted);
+}
+
+body.theme-dark .breadcrumbs__current {
+    color: var(--color-fg);
+}
+
+body.theme-dark .form__help {
+    color: var(--color-muted);
+}
+
+/* Улучшаем контрастность в тёмной теме */
+body.theme-dark .button--secondary {
+    background: #555;
+}
+
+body.theme-dark .button--secondary:hover {
+    background: #666;
+}
+
+/* БЛОК: Шапка сайта */
+.site-header {
+    background: var(--color-bg);
+    border-bottom: 1px solid var(--color-muted);
+    padding: var(--space-3) 0;
+}
+
+.site-header__container {
+    width: min(100% - 2 * var(--space-4), 1120px);
+    margin-inline: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.site-header__brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--color-primary);
+    text-decoration: none;
+}
+
+/* БЛОК: Навигация */
+.site-nav__list {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: var(--space-3);
+}
+
+.site-nav__link {
+    color: var(--color-fg);
+    text-decoration: none;
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius);
+    transition: background-color 0.2s;
+}
+
+.site-nav__link:hover,
+.site-nav__link:focus-visible {
+    background-color: var(--color-primary);
+    color: white;
+    outline: none;
+}
+
+.site-nav__link--active {
+    background-color: var(--color-primary);
+    color: white;
+}
+
+/* БЛОК: Основной контент */
+.main-content {
+    width: min(100% - 2 * var(--space-4), 1120px);
+    margin-inline: auto;
+    padding: var(--space-5) 0;
+}
+
+.section {
+    padding-block: var(--space-5);
+}
+
+.section__title {
+    margin: 0 0 var(--space-3);
+}
+
+/* БЛОК: Формы */
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    max-width: 480px;
+}
+
+.form__label {
+    display: block;
+    margin: 0.5rem 0 0.25rem;
+    font-weight: 500;
+}
+
+.form__input,
+.form__select,
+.form__textarea {
+    width: 100%;
+    padding: .5rem .75rem;
+    border: 1px solid #c8c8c8;
+    border-radius: var(--radius);
+    background: #fff;
+    font: inherit;
+}
+
+.form__textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.form__help {
+    font-size: 0.875rem;
+    color: var(--color-muted);
+    margin-top: var(--space-1);
+}
+
+.form__actions {
+    display: flex;
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+}
+
+/* БЛОК: Кнопки */
+.button {
+    padding: .5rem 1rem;
+    border: none;
+    border-radius: var(--radius);
+    background: var(--color-primary);
+    color: #fff;
+    cursor: pointer;
+    font: inherit;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+}
+
+.button:hover {
+    filter: brightness(0.95);
+}
+
+.button--secondary {
+    background: var(--color-muted);
+}
+
+.button--small {
+    padding: .25rem .75rem;
+    font-size: 0.875rem;
+}
+
+/* Состояния */
+:where(input, select, textarea, button):focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+:disabled, [aria-disabled="true"] { 
+    opacity: .6; 
+    cursor: not-allowed; 
+}
+
+[aria-invalid="true"] { 
+    border-color: var(--color-danger); 
+}
+
+/* БЛОК: Модальное окно */
+.modal[hidden] {
+    display: none;
+}
+
+.modal {
+    position: fixed;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    z-index: 1000;
+}
+
+.modal__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,.5);
+}
+
+.modal__window {
+    position: relative;
+    z-index: 1;
+    background: var(--color-bg);
+    border-radius: var(--radius);
+    padding: var(--space-4);
+    width: min(92vw, 520px);
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal__title {
+    margin: 0 0 var(--space-3);
+}
+
+/* БЛОК: Хлебные крошки */
+.breadcrumbs {
+    margin-bottom: var(--space-4);
+}
+
+.breadcrumbs__list {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: var(--space-2);
+}
+
+.breadcrumbs__link {
+    color: var(--color-muted);
+    text-decoration: none;
+}
+
+.breadcrumbs__link:hover {
+    color: var(--color-primary);
+}
+
+.breadcrumbs__current {
+    color: var(--color-fg);
+}
+
+/* Утилиты */
+.container {
+    width: min(100% - 2 * var(--space-4), 1120px);
+    margin-inline: auto;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.mt-1 { margin-top: var(--space-1); }
+.mt-2 { margin-top: var(--space-2); }
+.mt-3 { margin-top: var(--space-3); }
+.mt-4 { margin-top: var(--space-4); }
+.mt-5 { margin-top: var(--space-5); }
+
+/* Плавная прокрутка */
+html {
+    scroll-behavior: smooth;
+}
+
+:target {
+    outline: 2px dashed var(--color-primary);
+    outline-offset: 4px;
+}
+
+/* БЛОК: Переключатель темы */
+.theme-toggle {
+    background: none;
+    border: 1px solid var(--color-muted);
+    border-radius: var(--radius);
+    padding: var(--space-2) var(--space-3);
+    cursor: pointer;
+    font: inherit;
+    color: var(--color-fg);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    transition: all 0.2s;
+}
+
+.theme-toggle:hover {
+    background: var(--color-muted);
+    color: var(--color-bg);
+}
+
+.theme-toggle:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+.theme-toggle__icon {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.3s ease;
+}
+
+.theme-toggle[aria-pressed="true"] .theme-toggle__icon {
+    transform: rotate(180deg);
+}
+
+/* Анимация смены темы */
+body {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Улучшения для тёмной темы */
+body.theme-dark {
+    color-scheme: dark;
+}
+
+body.theme-dark .site-header {
+    border-bottom-color: #333;
+}
+
+body.theme-dark .form__input,
+body.theme-dark .form__select,
+body.theme-dark .form__textarea {
+    background: #1a1a1a;
+    border-color: #333;
+    color: var(--color-fg);
+}
+
+body.theme-dark .modal__window {
+    background: #1a1a1a;
+    border: 1px solid #333;
+}
+
+/* БЛОК: Подвал сайта */
+.site-footer {
+    background: var(--color-bg);
+    border-top: 1px solid var(--color-muted);
+    padding: var(--space-4) 0;
+    margin-top: auto;
+}
+
+/* БЛОК: Медиа-контейнеры для видео */
+.media-container {
+    aspect-ratio: 16/9;
+    width: min(100%, 960px);
+    margin-inline: auto;
+}
+
+.media-container iframe,
+.media-container video {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    border-radius: var(--radius);
+    display: block;
+}
+
+/* Стили для адаптивных медиа */
+.media-embed {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.media-embed__wrapper {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+    height: 0;
+    overflow: hidden;
+    border-radius: var(--radius);
+}
+
+.media-embed__wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}

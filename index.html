@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Главная - Название вашего сайта</title>
+    <meta name="description" content="Краткое описание главной страницы вашего сайта">
+    <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- Шапка сайта -->
+    <header class="site-header">
+        <div class="site-header__container">
+            <a class="site-header__brand" href="index.html">Логотип сайта</a>
+            
+            <!-- Главное меню навигации -->
+            <nav class="site-nav" aria-label="Основная навигация">
+                <ul class="site-nav__list">
+                    <li class="site-nav__item">
+                        <a class="site-nav__link site-nav__link--active" href="index.html">Главная</a>
+                    </li>
+                    <li class="site-nav__item">
+                        <a class="site-nav__link" href="src/about.html">О нас</a>
+                    </li>
+                    <li class="site-nav__item">
+                        <a class="site-nav__link" href="src/contacts.html">Контакты</a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div style="display: flex; gap: var(--space-2); align-items: center;">
+    <button class="button button--small" id="openModal" type="button">Написать нам</button>
+    
+    <!-- Переключатель темы -->
+    <button class="theme-toggle" type="button" aria-pressed="false" title="Переключить тему">
+        <svg class="theme-toggle__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <defs>
+                <symbol id="sun-icon" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="5"/>
+                    <line x1="12" y1="1" x2="12" y2="3"/>
+                    <line x1="12" y1="21" x2="12" y2="23"/>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                    <line x1="1" y1="12" x2="3" y2="12"/>
+                    <line x1="21" y1="12" x2="23" y2="12"/>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                </symbol>
+                <symbol id="moon-icon" viewBox="0 0 24 24">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                </symbol>
+            </defs>
+            <use href="#sun-icon"/>
+        </svg>
+    </button>
+</div>
+        </div>
+    </header>
+
+    <!-- Уникальное основное содержимое страницы -->
+    <main class="main-content">
+        <h1 class="section__title text-center">Добро пожаловать на наш сайт!</h1>
+
+        <!-- Секция 1 с якорем -->
+        <section class="section" id="services">
+            <h2 class="section__title">Наши услуги</h2>
+            <p>Описание предоставляемых услуг...</p>
+            <a class="button" href="#contacts">Связаться с нами</a>
+        </section>
+
+        <!-- Секция 2 с якорем -->
+        <section class="section" id="portfolio">
+            <h2 class="section__title">Портфолио</h2>
+            <p>Примеры наших работ...</p>
+            
+            <!-- Responsive изображение -->
+            <img src="assets/project-640.jpg"
+                 srcset="assets/project-640.jpg 640w, assets/project-960.jpg 960w"
+                 sizes="(max-width: 700px) 92vw, 640px"
+                 alt="Пример нашего проекта"
+                 width="640" height="360"
+                 loading="lazy"
+                 class="mt-3">
+        </section>
+
+        <!-- Секция 3 с якорем -->
+        <section class="section" id="contacts">
+            <h2 class="section__title">Контактная информация</h2>
+            <p>Наши контакты...</p>
+            <a class="button button--secondary" href="src/contacts.html">Подробнее</a>
+        </section>
+    </main>
+
+    <!-- Подвал сайта -->
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2024 Название моего сайта. Все права защищены.</p>
+            <p>Телефон: +7 (123) 456-78-90</p>
+        </div>
+    </footer>
+
+    <!-- Модальное окно обратной связи -->
+    <div class="modal" id="contactModal" hidden aria-modal="true" role="dialog" aria-labelledby="modalTitle">
+        <div class="modal__backdrop" data-close></div>
+        <div class="modal__window" role="document">
+            <h2 class="modal__title" id="modalTitle">Обратная связь</h2>
+            
+            <form class="form" id="contactForm" novalidate>
+                <div class="form__group">
+                    <label class="form__label" for="name">Имя *</label>
+                    <input class="form__input" id="name" name="name" type="text" required minlength="2" autocomplete="given-name">
+                </div>
+
+                <div class="form__group">
+                    <label class="form__label" for="email">E-mail *</label>
+                    <input class="form__input" id="email" name="email" type="email" required autocomplete="email">
+                </div>
+
+                <div class="form__group">
+                    <label class="form__label" for="phone">Телефон *</label>
+                    <input class="form__input" id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel"
+                           aria-describedby="phoneHelp" placeholder="+7 (900) 000-00-00"
+                           required pattern="^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$">
+                    <small class="form__help" id="phoneHelp">Формат: +7 (900) 000-00-00</small>
+                </div>
+
+                <div class="form__group">
+                    <label class="form__label" for="topic">Тема *</label>
+                    <select class="form__select" id="topic" name="topic" required>
+                        <option value="">Выберите тему</option>
+                        <option value="question">Вопрос</option>
+                        <option value="order">Заказ</option>
+                        <option value="cooperation">Сотрудничество</option>
+                    </select>
+                </div>
+
+                <div class="form__group">
+                    <label class="form__label" for="message">Сообщение *</label>
+                    <textarea class="form__textarea" id="message" name="message" rows="4" required></textarea>
+                </div>
+
+                <div class="form__actions">
+                    <button class="button button--secondary" type="button" id="closeModal">Закрыть</button>
+                    <button class="button" type="submit">Отправить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="main.js" defer></script>
+</body>
+</html>
